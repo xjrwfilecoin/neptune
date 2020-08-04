@@ -11,6 +11,7 @@ use paired::bls12_381::Fr;
 use std::result::Result;
 use std::thread;
 use std::time::Instant;
+use structopt::StructOpt;
 
 fn bench_column_building(
     log_prefix: &str,
@@ -95,15 +96,26 @@ fn bench_column_building(
     res[res.len() - 1]
 }
 
+#[derive(Debug, StructOpt, Clone, Copy)]
+#[structopt(name = "Neptune gbench", about = "Neptune benchmarking program")]
+struct Opts {
+    #[structopt(long = "max-tree-batch-size", default_value = "700000")]
+    max_tree_batch_size: usize,
+    #[structopt(long = "max-column-batch-size", default_value = "400000")]
+    max_column_batch_size: usize,
+}
+
 fn main() -> Result<(), Error> {
     env_logger::init();
+
+    let opts = Opts::from_args();
 
     let kib = 1024 * 1024 * 4; // 4GiB
                                // let kib = 1024 * 512; // 512MiB
     let bytes = kib * 1024;
     let leaves = bytes / 32;
-    let max_column_batch_size = 400000;
-    let max_tree_batch_size = 700000;
+    let max_column_batch_size = opts.max_column_batch_size;
+    let max_tree_batch_size = opts.max_tree_batch_size;
 
     info!("KiB: {}", kib);
     info!("leaves: {}", leaves);
