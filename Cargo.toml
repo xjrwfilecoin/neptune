@@ -9,7 +9,7 @@ repository = "https://github.com/porcuquine/poseidon"
 
 [dependencies]
 lazy_static = "1.4.0"
-bellperson = { version = "0.12", default-features = false }
+bellperson = { version = "0.12", default-features = false,path="../bellperson" }
 blake2s_simd = "0.5"
 byteorder = "1"
 ff = { version = "0.2.1", package = "fff" }
@@ -29,7 +29,7 @@ rand_xorshift = "0.2.0"
 serde_json = "1.0.53"
 
 [build-dependencies]
-bellperson = { version = "0.12", default-features = false }
+bellperson = { version = "0.12", default-features = false,path="../bellperson" }
 ff = { version = "0.2.1", package = "fff" }
 
 [[bench]]
@@ -45,7 +45,7 @@ incremental = false
 codegen-units = 1
 
 [features]
-default = ["pairing"]
+default = ["blst"]
 gpu = ["triton", "rust-gpu-tools"]
 pairing = ["bellperson/pairing"]
 blst = ["bellperson/blst"]
